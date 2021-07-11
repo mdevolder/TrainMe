@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Trainer</title>
+</head>
+<body>
+    <form action="/trainers" method="POST">
+        <div>
+            <label for="firstName" hidden>First Name</label>
+            <input type="text" id="firstName" name="trainer[firstName]" placeholder="First Name">
+            <label for="lastName" hidden>Last Name</label>
+            <input type="text" id="lastName" name="trainer[lastName]" placeholder="Last Name">
+        </div>
+        <div>
+            <label for="street" hidden>Address</label>
+            <input type="text" id="street" name="trainer[street]" placeholder="Address">
+            <input type="text" id="street2" name="trainer[street2]" placeholder="Address cont.">
+            <label for="city" hidden>City</label>
+            <input type="text" id="city" name="trainer[city]" placeholder="City">
+            <label for="state" hidden>State</label>
+            <input type="text" id="state" name="trainer[state]" placeholder="State">
+            <label for="zip" hidden>Zipcode</label>
+            <input type="number" name="trainer[zip]" id="zip" min="10000" max="99999" placeholder="Zipcode">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

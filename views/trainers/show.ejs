@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= trainer.firstName %> <%= trainer.lastName %></title>
+</head>
+<body>
+    <h1><%= trainer.firstName %> <%= trainer.lastName %></h1>
+    <h2><%= trainer.city %>, <%= trainer.state %></h2>
+    <p>
+        <a href="/trainers/<%= trainer._id %>/edit">Edit</a>
+    </p>
+    <p>
+        <form action="/trainers/<%= trainer._id %>?_method=DELETE" method="POST">
+            <button>Delete</button>
+        </form>
+    </p>
+    <footer>
+        <a href="/trainers">Back</a>
+    </footer>
+</body>
+</html>
