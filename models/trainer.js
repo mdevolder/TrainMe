@@ -9,7 +9,8 @@ const TrainerSchema = new Schema({
     street2: String,
     city: String,
     state: String,
-    zip: Number
+    zip: Number,
+    image: String
 });
 
 module.exports = mongoose.model('Trainer', TrainerSchema);

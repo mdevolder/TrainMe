@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const locations = require('./locations');
-const {firstNames, lastNames} = require('./seedHelpers');
+const { firstNamesMale, firstNamesFemale, lastNames, imagesMale, imagesFemale, descriptions } = require('./seedHelpers');
 
 const Trainer = require('../models/trainer');
 
@@ -22,14 +22,17 @@ const seedDB = async () => {
     await Trainer.deleteMany({});
     for (let i = 0; i < 50; i++) {
         const randomLoc = Math.floor(Math.random() * locations.length);
+        const gender = Math.floor(Math.random() * 2);
         const train = new Trainer({
-            firstName: sample(firstNames),
+            firstName: gender ? sample(firstNamesMale) : sample(firstNamesFemale),
             lastName: sample(lastNames),
             street: locations[randomLoc].street,
             street2: locations[randomLoc].street2,
             city: locations[randomLoc].city,
             state: locations[randomLoc].state,
-            zip: locations[randomLoc].zip
+            zip: locations[randomLoc].zip,
+            image: `https://source.unsplash.com/${gender ? sample(imagesMale) : sample(imagesFemale)}`,
+            description: sample(descriptions)
         })
         await train.save();
     }
