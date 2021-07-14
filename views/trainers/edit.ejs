@@ -2,29 +2,51 @@
 <div class="row">
     <h1 class="text-center">Edit Trainer Profile</h1>
     <div class="col-6 offset-3">
-        <form action="/trainers/<%= trainer._id %>?_method=PUT" method="POST">
+        <form action="/trainers/<%= trainer._id %>?_method=PUT" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label for="firstName" class="form-label">First Name</label>
-                <input type="text" id="firstName" class="form-control" name="trainer[firstName]" value="<%= trainer.firstName %>">
+                <input type="text" id="firstName" class="form-control" name="trainer[firstName]" 
+                    value="<%= trainer.firstName %>" required>
                 <label for="lastName" class="form-label">Last Name</label>
-                <input type="text" id="lastName" class="form-control" name="trainer[lastName]" value="<%= trainer.lastName %>">
+                <input type="text" id="lastName" class="form-control" name="trainer[lastName]" 
+                    value="<%= trainer.lastName %>" required>
             </div>
             <div class="mb-3">
                 <label for="street" class="form-label">Address</label>
-                <input type="text" id="street" class="form-control" name="trainer[street]" value="<%= trainer.street %>">
-                <input type="text" id="street2" class="form-control" name="trainer[street2]" value="<%= trainer.street2 %>">
+                <input type="text" id="street" class="form-control" name="trainer[street]" 
+                    value="<%= trainer.street %>" required>
+                <div class="invalid-feedback">
+                    Please provide a valid address.
+                </div>
+                <input type="text" id="street2" class="form-control" name="trainer[street2]" 
+                    value="<%= trainer.street2 %>">
                 <label for="city" class="form-label">City</label>
-                <input type="text" id="city" class="form-control" name="trainer[city]" value="<%= trainer.city %>">
+                <input type="text" id="city" class="form-control" name="trainer[city]" 
+                    value="<%= trainer.city %>" required>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
                 <label for="state" class="form-label">State</label>
-                <input type="text" id="state" class="form-control" name="trainer[state]" value="<%= trainer.state %>">
+                <input type="text" id="state" class="form-control" name="trainer[state]" 
+                    value="<%= trainer.state %>" required>
+                <div class="invalid-feedback">
+                    Please provide a valid state.
+                </div>
                 <label for="zip" class="form-label">Zipcode</label>
-                <input type="number" name="trainer[zip]" id="zip" class="form-control" min="10000" max="99999" value="<%= trainer.zip %>">
+                <input type="number" name="trainer[zip]" id="zip" class="form-control"
+                    value="<%= trainer.zip %>" required>
+                <div class="invalid-feedback">
+                    Please provide a valid zipcode.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Bio</label>
-                <textarea name="trainer[description]" id="description" rows="5" class="form-control">
-                    <%= trainer.description %>
+                <textarea name="trainer[description]" id="description" rows="5" 
+                    class="form-control" required><%= trainer.description %>
                 </textarea>
+                <div class="invalid-feedback">
+                    Your biography cannot be blank.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Image URL</label>

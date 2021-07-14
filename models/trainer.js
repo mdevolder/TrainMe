@@ -9,7 +9,7 @@ const TrainerSchema = new Schema({
     street2: String,
     city: String,
     state: String,
-    zip: Number,
+    zip: String,
     image: String
 });
 

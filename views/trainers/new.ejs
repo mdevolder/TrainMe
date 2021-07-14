@@ -2,23 +2,27 @@
 <div class="row">
     <h1 class="text-center">New Trainer</h1>
     <div class="col-6 offset-3">
-        <form action="/trainers" method="POST">
+        <form action="/trainers" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="firstName">First Name</label>
-                <input class="form-control" type="text" id="firstName" name="trainer[firstName]" placeholder="First Name">
+                <input class="form-control" type="text" id="firstName" name="trainer[firstName]" placeholder="First Name" required>
                 <label class="form-label" for="lastName">Last Name</label>
-                <input class="form-control" type="text" id="lastName" name="trainer[lastName]" placeholder="Last Name">
+                <input class="form-control" type="text" id="lastName" name="trainer[lastName]" placeholder="Last Name" required>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="street" >Address</label>
-                <input class="form-control" type="text" id="street" name="trainer[street]" placeholder="Address">
+                <input class="form-control" type="text" id="street" name="trainer[street]" placeholder="Address" required>
+                <div class="invalid-feedback">Please provide a valid address.</div>
                 <input class="form-control" type="text" id="street2" name="trainer[street2]" placeholder="Address cont.">
                 <label class="form-label" for="city" >City</label>
-                <input class="form-control" type="text" id="city" name="trainer[city]" placeholder="City">
+                <input class="form-control" type="text" id="city" name="trainer[city]" placeholder="City" required>
+                <div class="invalid-feedback">Please provide a valid city.</div>
                 <label class="form-label" for="state" >State</label>
-                <input class="form-control" type="text" id="state" name="trainer[state]" placeholder="State">
+                <input class="form-control" type="text" id="state" name="trainer[state]" placeholder="State" required>
+                <div class="invalid-feedback">Please provide a valid state</div>
                 <label class="form-label" for="zip" >Zipcode</label>
-                <input class="form-control" type="number" name="trainer[zip]" id="zip" placeholder="Zipcode">
+                <input class="form-control" type="number" name="trainer[zip]" id="zip" placeholder="Zipcode" required>
+                <div class="invalid-feedback">Please provide a valid zipcode.</div>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-labe">Bio</label>
