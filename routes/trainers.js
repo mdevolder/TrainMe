@@ -4,6 +4,7 @@ const router = express.Router();
 const Trainer = require('../models/trainer');
 
 const { trainerSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
 
 const ExpressError = require('../utils/ExpressError');
 const catchAsync = require('../utils/catchAsync');
@@ -25,39 +26,50 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('trainers/index', { trainers });
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('trainers/new');
 });
 
-router.post('/', validateTrainer, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateTrainer, catchAsync(async (req, res, next) => {
     const trainerInput = req.body.trainer;
     if (!trainerInput.image) trainerInput.image = defaultImage;
     const trainer = new Trainer(trainerInput);
     await trainer.save();
+    req.flash('success', 'Successfully added your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
     const trainer = await Trainer.findById(req.params.id).populate('reviews');
+    if (!trainer) {
+        req.flash('error', 'Cannot find that trainer!');
+        return res.redirect('/trainers');
+    }
     res.render('trainers/show', { trainer });
 }));
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const trainer = await Trainer.findById(req.params.id);
+    if (!trainer) {
+        req.flash('error', 'Cannot find that trainer!');
+        return res.redirect('/trainers');
+    }
     res.render('trainers/edit', { trainer });
 }));
 
-router.put('/:id', validateTrainer, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateTrainer, catchAsync(async (req, res) => {
     const trainerInput = req.body.trainer
     if (!trainerInput.image) trainerInput.image = defaultImage;
     const { id } = req.params;
     const trainer = await Trainer.findByIdAndUpdate(id, { ...trainerInput });
+    req.flash('success', 'Successfully updated your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);
 }));
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Trainer.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted your trainer profile!');
     res.redirect('/trainers');
 }));
 
