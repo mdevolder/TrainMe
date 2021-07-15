@@ -21,6 +21,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 router.post('/', isLoggedIn, validateTrainer, catchAsync(async (req, res, next) => {
     const trainerInput = req.body.trainer;
     if (!trainerInput.image) trainerInput.image = defaultImage;
+    trainerInput.author = req.user._id;
     const trainer = new Trainer(trainerInput);
     await trainer.save();
     req.flash('success', 'Successfully added your trainer profile!');
