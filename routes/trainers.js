@@ -3,23 +3,11 @@ const router = express.Router();
 
 const Trainer = require('../models/trainer');
 
-const { trainerSchema } = require('../schemas.js');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, isAuthor, validateTrainer } = require('../middleware');
 
-const ExpressError = require('../utils/ExpressError');
 const catchAsync = require('../utils/catchAsync');
 
 const defaultImage = 'https://source.unsplash.com/-1GI_FL-8Uw/640x1135';
-
-const validateTrainer = (req, res, next) => {
-    const { error } = trainerSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
 
 router.get('/', catchAsync(async (req, res) => {
     const trainers = await Trainer.find({});
@@ -40,7 +28,12 @@ router.post('/', isLoggedIn, validateTrainer, catchAsync(async (req, res, next) 
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const trainer = await Trainer.findById(req.params.id).populate('reviews');
+    const trainer = await Trainer.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
     if (!trainer) {
         req.flash('error', 'Cannot find that trainer!');
         return res.redirect('/trainers');
@@ -48,8 +41,9 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('trainers/show', { trainer });
 }));
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
-    const trainer = await Trainer.findById(req.params.id);
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const trainer = await Trainer.findById(id);
     if (!trainer) {
         req.flash('error', 'Cannot find that trainer!');
         return res.redirect('/trainers');
@@ -57,7 +51,7 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     res.render('trainers/edit', { trainer });
 }));
 
-router.put('/:id', isLoggedIn, validateTrainer, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validateTrainer, catchAsync(async (req, res) => {
     const trainerInput = req.body.trainer
     if (!trainerInput.image) trainerInput.image = defaultImage;
     const { id } = req.params;
@@ -66,7 +60,7 @@ router.put('/:id', isLoggedIn, validateTrainer, catchAsync(async (req, res) => {
     res.redirect(`/trainers/${trainer._id}`);
 }));
 
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor , catchAsync(async (req, res) => {
     const { id } = req.params;
     await Trainer.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted your trainer profile!');

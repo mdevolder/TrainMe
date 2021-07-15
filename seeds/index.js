@@ -32,7 +32,8 @@ const seedDB = async () => {
             state: locations[randomLoc].state,
             zip: locations[randomLoc].zip,
             image: `https://source.unsplash.com/${gender ? sample(imagesMale) : sample(imagesFemale)}`,
-            description: sample(descriptions)
+            description: sample(descriptions),
+            author: '60f03a8024c78712df801c9f'
         })
         await train.save();
     }

@@ -12,6 +12,10 @@ const TrainerSchema = new Schema({
     state: {type: String, trim: true},
     zip: {type: String, trim: true},
     image: {type: String, trim: true},
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
