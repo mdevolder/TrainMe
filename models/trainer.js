@@ -11,7 +11,10 @@ const TrainerSchema = new Schema({
     city: {type: String, trim: true},
     state: {type: String, trim: true},
     zip: {type: String, trim: true},
-    image: {type: String, trim: true},
+    image: {
+        path: String,
+        filename: String
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

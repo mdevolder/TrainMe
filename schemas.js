@@ -48,10 +48,6 @@ module.exports.trainerSchema = Joi.object({
             .trim()
             .regex(/^[0-9]{5}(?:-[0-9]{4})?$/)
             .required(),
-        image: Joi
-            .string()
-            .allow('')
-            .required()
     }).required()
 });
 

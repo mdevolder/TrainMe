@@ -12,10 +12,9 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createTrainer = async (req, res, next) => {
-    const trainerInput = req.body.trainer;
-    if (!trainerInput.image) trainerInput.image = defaultImage;
-    trainerInput.author = req.user._id;
-    const trainer = new Trainer(trainerInput);
+    const trainer = new Trainer(req.body.trainer);
+    trainer.image = req.file;
+    trainer.author = req.user._id;
     await trainer.save();
     req.flash('success', 'Successfully added your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);

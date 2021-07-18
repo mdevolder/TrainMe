@@ -1,6 +1,14 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const locations = require('./locations');
 const { firstNamesMale, firstNamesFemale, lastNames, imagesMale, imagesFemale, descriptions } = require('./seedHelpers');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET
+});
 
 const Trainer = require('../models/trainer');
 
@@ -23,6 +31,7 @@ const seedDB = async () => {
     for (let i = 0; i < 50; i++) {
         const randomLoc = Math.floor(Math.random() * locations.length);
         const gender = Math.floor(Math.random() * 2);
+        const img = await cloudinary.uploader.upload(`https://source.unsplash.com/${gender ? sample(imagesMale) : sample(imagesFemale)}`, {folder: "TrainMe"});
         const train = new Trainer({
             firstName: gender ? sample(firstNamesMale) : sample(firstNamesFemale),
             lastName: sample(lastNames),
@@ -31,10 +40,13 @@ const seedDB = async () => {
             city: locations[randomLoc].city,
             state: locations[randomLoc].state,
             zip: locations[randomLoc].zip,
-            image: `https://source.unsplash.com/${gender ? sample(imagesMale) : sample(imagesFemale)}`,
             description: sample(descriptions),
-            author: '60f03a8024c78712df801c9f'
+            author: '60f03a8024c78712df801c9f',
+            image: {
+                path: img.url,
+                filename: img.public_id}
         })
+
         await train.save();
     }
 }
