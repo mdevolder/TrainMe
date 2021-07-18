@@ -2,7 +2,8 @@
 <div class="row">
     <h1 class="text-center">Edit Trainer Profile</h1>
     <div class="col-6 offset-3">
-        <form action="/trainers/<%= trainer._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+        <form action="/trainers/<%= trainer._id %>?_method=PUT" method="POST" novalidate class="validated-form" 
+            enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="firstName" class="form-label">First Name</label>
                 <input type="text" id="firstName" class="form-control" name="trainer[firstName]" 
@@ -48,8 +49,11 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">Image URL</label>
-                <input type="text" id="image" name="trainer[image]" class="form-control" value="<%= trainer.image %>">
+                <div class="form-file custom-file">
+                    <input type="file" name="image" id="image" class="form-file-input">
+                    <label for="image" class="form-file-label">
+                    </label>
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">Update</button>

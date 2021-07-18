@@ -1,4 +1,5 @@
 const Trainer = require('../models/trainer');
+const { cloudinary } = require('../cloudinary');
 
 const defaultImage = 'https://source.unsplash.com/-1GI_FL-8Uw/640x1135';
 
@@ -45,17 +46,21 @@ module.exports.renderEditForm = async (req, res) => {
 }
 
 module.exports.updateTrainer = async (req, res) => {
-    const trainerInput = req.body.trainer
-    if (!trainerInput.image) trainerInput.image = defaultImage;
     const { id } = req.params;
-    const trainer = await Trainer.findByIdAndUpdate(id, { ...trainerInput });
+    const trainer = await Trainer.findByIdAndUpdate(id, { ...req.body.trainer });
+    if (req.file) {
+        await cloudinary.uploader.destroy(trainer.image.filename);
+        trainer.image = { path: req.file.path, filename: req.file.filename };
+        await trainer.save();
+    }
     req.flash('success', 'Successfully updated your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);
 }
 
 module.exports.deleteTrainer = async (req, res) => {
     const { id } = req.params;
-    await Trainer.findByIdAndDelete(id);
+    const trainer = await Trainer.findByIdAndDelete(id);
+    await cloudinary.uploader.destroy(trainer.image.filename);
     req.flash('success', 'Successfully deleted your trainer profile!');
     res.redirect('/trainers');
 }
