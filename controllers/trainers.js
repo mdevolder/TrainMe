@@ -1,4 +1,7 @@
 const Trainer = require('../models/trainer');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require('../cloudinary');
 
 const defaultImage = 'https://source.unsplash.com/-1GI_FL-8Uw/640x1135';
@@ -13,7 +16,13 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createTrainer = async (req, res, next) => {
-    const trainer = new Trainer(req.body.trainer);
+    const trainerInput = req.body.trainer;
+    const geoData = await geocoder.forwardGeocode({
+        query: `${trainerInput.street} ${trainerInput.city}, ${trainerInput.state} ${trainerInput.zip}`,
+        limit: 1
+    }).send()
+    const trainer = new Trainer(trainerInput);
+    trainer.geometry = geoData.body.features[0].geometry;
     trainer.image = req.file;
     trainer.author = req.user._id;
     await trainer.save();
@@ -48,11 +57,16 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateTrainer = async (req, res) => {
     const { id } = req.params;
     const trainer = await Trainer.findByIdAndUpdate(id, { ...req.body.trainer });
+    const geoData = await geocoder.forwardGeocode({
+        query: `${trainer.street} ${trainer.city}, ${trainer.state} ${trainer.zip}`,
+        limit: 1
+    }).send()
+    trainer.geometry = geoData.body.features[0].geometry;
     if (req.file) {
         await cloudinary.uploader.destroy(trainer.image.filename);
         trainer.image = { path: req.file.path, filename: req.file.filename };
-        await trainer.save();
     }
+    await trainer.save();
     req.flash('success', 'Successfully updated your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);
 }

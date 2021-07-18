@@ -11,6 +11,17 @@ const TrainerSchema = new Schema({
     city: {type: String, trim: true},
     state: {type: String, trim: true},
     zip: {type: String, trim: true},
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     image: {
         path: String,
         filename: String
