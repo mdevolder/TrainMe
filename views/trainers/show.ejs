@@ -1,9 +1,14 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/stylesheets/stars.css">
+
 <div class="row">
     <div class="col-6">
         <div class="card mb-3">
-            <img src="<%= trainer.image.path %>" alt="" class="card-img-top">
+            <% if (trainer.image.url === undefined) { %> 
+                <img src="https://res.cloudinary.com/dotxho3ns/image/upload/v1626631225/TrainMe/photo-1612099197070-4db4ab9abcd4_arf9hs.jpg" alt="" class="card-img-top">
+            <% } else { %>
+                <img src="<%= trainer.image.url %>" alt="" class="card-img-top">
+            <% } %>
             <div class="card-body">
                 <h5 class="card-title"><%= trainer.firstName %> <%= trainer.lastName %></h5>
                 <p class="card-text">
@@ -28,6 +33,8 @@
         </div>
     </div>
     <div class="col-6">
+        <div id="map" style="width: 100%; height: 300px"></div>
+
         <% if (currentUser) { %>
             <h2>Leave a Review</h2>
             <form action="/trainers/<%= trainer._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
@@ -68,3 +75,10 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
+    const trainer = <%- JSON.stringify(trainer) %>;
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

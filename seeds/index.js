@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const locations = require('./locations');
 const { firstNamesMale, firstNamesFemale, lastNames, imagesMale, imagesFemale, descriptions } = require('./seedHelpers');
 const cloudinary = require('cloudinary').v2;
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -28,6 +31,7 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
     await Trainer.deleteMany({});
+    //await cloudinary.api.delete_resources(all, {folder: "TrainMe"})
     for (let i = 0; i < 50; i++) {
         const randomLoc = Math.floor(Math.random() * locations.length);
         const gender = Math.floor(Math.random() * 2);
@@ -43,10 +47,14 @@ const seedDB = async () => {
             description: sample(descriptions),
             author: '60f03a8024c78712df801c9f',
             image: {
-                path: img.url,
+                url: img.url,
                 filename: img.public_id}
         })
-
+        const geoData = await geocoder.forwardGeocode({
+            query: `${train.street} ${train.city}, ${train.state} ${train.zip}`,
+            limit: 1
+        }).send()
+        train.geometry = geoData.body.features[0].geometry;
         await train.save();
     }
 }

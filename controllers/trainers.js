@@ -4,10 +4,8 @@ const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require('../cloudinary');
 
-const defaultImage = 'https://source.unsplash.com/-1GI_FL-8Uw/640x1135';
-
 module.exports.index = async (req, res) => {
-    const trainers = await Trainer.find({});
+    const trainers = await Trainer.find({}).populate('popupText');
     res.render('trainers/index', { trainers });
 }
 
@@ -23,7 +21,7 @@ module.exports.createTrainer = async (req, res, next) => {
     }).send()
     const trainer = new Trainer(trainerInput);
     trainer.geometry = geoData.body.features[0].geometry;
-    trainer.image = req.file;
+    trainer.image = { url: req.file.path, filename: req.file.filename };
     trainer.author = req.user._id;
     await trainer.save();
     req.flash('success', 'Successfully added your trainer profile!');
@@ -64,7 +62,7 @@ module.exports.updateTrainer = async (req, res) => {
     trainer.geometry = geoData.body.features[0].geometry;
     if (req.file) {
         await cloudinary.uploader.destroy(trainer.image.filename);
-        trainer.image = { path: req.file.path, filename: req.file.filename };
+        trainer.image = { url: req.file.path, filename: req.file.filename };
     }
     await trainer.save();
     req.flash('success', 'Successfully updated your trainer profile!');
