@@ -1,12 +1,12 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-    container: 'map',
+    container: 'cluster-map',
     style: 'mapbox://styles/mapbox/light-v10',
     center: [-95.425186, 30.085136],
     zoom: 10
 });
 
-
+map.addControl(new mapboxgl.NavigationControl());
 
 
 map.on('load', function () {
