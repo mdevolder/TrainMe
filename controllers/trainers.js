@@ -86,7 +86,9 @@ module.exports.updateTrainer = async (req, res) => {
 module.exports.deleteTrainer = async (req, res) => {
     const { id } = req.params;
     const trainer = await Trainer.findByIdAndDelete(id);
-    await cloudinary.uploader.destroy(trainer.image.filename);
+    if(trainer.image.url !== '') {
+        await cloudinary.uploader.destroy(trainer.image.filename);
+    }
     req.flash('success', 'Successfully deleted your trainer profile!');
     res.redirect('/trainers');
 }
