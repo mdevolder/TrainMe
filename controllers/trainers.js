@@ -21,7 +21,12 @@ module.exports.createTrainer = async (req, res, next) => {
     }).send()
     const trainer = new Trainer(trainerInput);
     trainer.geometry = geoData.body.features[0].geometry;
-    trainer.image = { url: req.file.path, filename: req.file.filename };
+    if (req.file) {
+        trainer.image = { url: req.file.path, filename: req.file.filename };
+    }
+    else {
+        trainer.image = { url: '', filename: '' };
+    }
     trainer.author = req.user._id;
     await trainer.save();
     req.flash('success', 'Successfully added your trainer profile!');
@@ -61,7 +66,9 @@ module.exports.updateTrainer = async (req, res) => {
     }).send()
     trainer.geometry = geoData.body.features[0].geometry;
     if (req.file) {
-        await cloudinary.uploader.destroy(trainer.image.filename);
+        if (trainer.image.url !== '') {
+            await cloudinary.uploader.destroy(trainer.image.filename);
+        }
         trainer.image = { url: req.file.path, filename: req.file.filename };
     }
     await trainer.save();

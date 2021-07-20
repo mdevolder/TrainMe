@@ -381,3 +381,61 @@ module.exports.descriptions = [
     "One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. 'What's happened to me?' he thought. It wasn't a dream. His room, a proper human",
     "The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz, vex nymphs. Waltz, bad nymph, for quick jigs vex! Fox nymphs grab quick-jived waltz. Brick quiz whangs jumpy veldt fox. Bright vixens jump; dozy fowl quack. Quick wafting zephyrs vex bold Jim. Quick zephyrs blow, vexing daft Jim. Sex-charged fop blew my junk TV quiz. How quickly daft jumping zebras vex. Two driven jocks help fax my big quiz. Quick, Baz, get my woven flax jodhpurs! 'Now fax quiz Jack!' my brave"
 ]
+
+module.exports.serviceLocations = [
+    ["In Gym"],
+    ["In Home"],
+    ["Outside"],
+    ["Online"],
+    ["In Gym", "In Home"],
+    ["In Gym", "Outside"],
+    ["In Gym", "Online"],
+    ["In Home", "Outside"],
+    ["In Home", "Online"],
+    ["Outside", "Online"],
+    ["In Gym", "In Home", "Outside"],
+    ["In Gym", "In Home", "Online"],
+    ["In Gym", "Outside", "Online"],
+    ["In Home", "Outside", "Online"],
+    ["In Gym", "In Home", "Outside", "Online"]
+]
+
+module.exports.services = [
+    ["Training"],
+    ["Nutrition"],
+    ["Training", "Nutrition"]
+]
+
+module.exports.certifications = [
+    ["ISSA"],
+    ["NCSF"],
+    ["FM"],
+    ["ACE"],
+    ["NASM"],
+    ["ISSA", "NCSF"],
+    ["ISSA", "FM"],
+    ["ISSA", "ACE"],
+    ["ISSA", "NASM"],
+    ["NCSF", "FM"],
+    ["NCSF", "ACE"],
+    ["NCSF", "NASM"],
+    ["FM", "ACE"],
+    ["FM", "NASM"],
+    ["ACE", "NASM"],
+    ["ISSA", "NCSF", "FM"],
+    ["ISSA", "NCSF", "ACE"],
+    ["ISSA", "NCSF", "NASM"],
+    ["ISSA", "FM", "ACE"],
+    ["ISSA", "FM", "NASM"],
+    ["ISSA", "ACE", "NASM"],
+    ["NCSF", "FM", "ACE"],
+    ["NCSF", "FM", "NASM"],
+    ["NCSF", "ACE", "NASM"],
+    ["FM", "ACE", "NASM"],
+    ["ISSA", "NCSF", "FM", "ACE"],
+    ["ISSA", "NCSF", "FM", "NASM"],
+    ["ISSA", "NCSF", "ACE", "NASM"],
+    ["ISSA", "FM", "ACE", "NASM"],
+    ["NCSF", "FM", "ACE", "NASM"],
+    ["ISSA", "NCSF", "FM", "ACE", "NASM"]
+]

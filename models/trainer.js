@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Review = require('./review')
+const Review = require('./review');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
@@ -43,7 +43,24 @@ const TrainerSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
+    ],
+    services: [
+        {
+            type: String,
+            enum: ['Training', 'Nutrition'],
+            required: true
+        }
+    ],
+    serviceLocation: [{
+        type: String,
+        enum: ['In Gym', 'In Home', 'Outside', 'Online'],
+        required: true
+    }],
+    certification: [{
+        type: String,
+        enum: ['ISSA', 'NCSF', 'FM', 'ACE', 'NASM'],
+        required: true
+    }]
 }, opts);
 
 TrainerSchema.virtual('properties.popUpMarkup').get(function () {

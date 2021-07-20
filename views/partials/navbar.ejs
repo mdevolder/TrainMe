@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">TrainMe</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,18 +6,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="/">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
           <a class="nav-link" href="/trainers">Trainers</a>
           <a class="nav-link" href="/trainers/new">New Trainer</a>
         </div>
-        <div class="navbar-nav ml-auto">
-          <% if(!currentUser) { %>
-            <a href="/login" class="nav-link">Login</a>
-            <a href="/register" class="nav-link">Register</a>
+          <div class="navbar-nav ms-auto">
+            <% if(!currentUser) { %>
+              <a href="/login" class="nav-link">Login</a>
+              <a href="/register" class="nav-link">Register</a>
             <% } else { %>
               <a href="/logout" class="nav-link">Logout</a>
-            <% } %>   
-        </div>
+            <% } %> 
+          </div>
       </div>
     </div>
   </nav>

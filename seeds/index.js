@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const locations = require('./locations');
-const { firstNamesMale, firstNamesFemale, lastNames, imagesMale, imagesFemale, descriptions } = require('./seedHelpers');
+const { firstNamesMale, firstNamesFemale, lastNames, imagesMale, imagesFemale, descriptions, serviceLocations, services, certifications } = require('./seedHelpers');
 const cloudinary = require('cloudinary').v2;
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
@@ -46,6 +46,9 @@ const seedDB = async () => {
             zip: locations[randomLoc].zip,
             description: sample(descriptions),
             author: '60f03a8024c78712df801c9f',
+            services: sample(services),
+            serviceLocation: sample(serviceLocations),
+            certification: sample(certifications),
             image: {
                 url: img.url,
                 filename: img.public_id}

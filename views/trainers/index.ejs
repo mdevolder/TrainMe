@@ -6,8 +6,8 @@
         <div class="card mb-3 border border-dark">
             <div class="row">
                 <div class="col-md-4">
-                    <% if(trainer.image.url === undefined) { %>
-                        <img src="https://res.cloudinary.com/dotxho3ns/image/upload/v1626631225/TrainMe/photo-1612099197070-4db4ab9abcd4_arf9hs.jpg" alt="" class="img-fluid">
+                    <% if(trainer.image.url === '') { %>
+                        <img src="http://res.cloudinary.com/dotxho3ns/image/upload/c_fill,h_1000,w_1000/v1626631225/TrainMe/static/photo-1612099197070-4db4ab9abcd4_arf9hs.jpg" alt="" class="img-fluid">
                     <% } else { %> 
                         <img src="<%= trainer.image.url %> " alt="" class="img-fluid">
                     <% } %> 
@@ -20,6 +20,12 @@
                         <p class="card-text">
                             <small class="text-muted"><%= trainer.city %>, <%= trainer.state %></small>
                         </p>
+                        <div>
+                            <h6>Services Offered:</h6>
+                           <h6><% trainer.services.forEach((serv) => { %>
+                                 <span class="badge rounded-pill bg-primary"><%= serv %> </span>
+                            <% }) %></h6>
+                        </div>
                     </div>
                 </div>
             </div>
