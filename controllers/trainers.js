@@ -14,7 +14,6 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createTrainer = async (req, res, next) => {
-    console.log(req.body);
     const trainerInput = req.body.trainer;
     const geoData = await geocoder.forwardGeocode({
         query: `${trainerInput.street} ${trainerInput.city}, ${trainerInput.state} ${trainerInput.zip}`,
