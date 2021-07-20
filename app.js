@@ -12,6 +12,7 @@ const LocalStrategy = require('passport-local');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const User = require('./models/user');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const trainerRoutes = require('./routes/trainers');
 const reviewRoutes = require('./routes/reviews');
@@ -39,6 +40,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize({replaceWith: '_'}));
 
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret',
@@ -62,7 +64,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    console.log(req.session);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');

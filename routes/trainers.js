@@ -7,6 +7,9 @@ const { storage } = require('../cloudinary');
 const upload = multer({ storage });
 const catchAsync = require('../utils/catchAsync');
 const Trainer = require('../models/trainer');
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.urlencoded({extended: true}));
 
 router.route('/')
     .get(catchAsync(trainers.index))

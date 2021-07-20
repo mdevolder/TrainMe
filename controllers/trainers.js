@@ -14,6 +14,7 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createTrainer = async (req, res, next) => {
+    console.log(req.body);
     const trainerInput = req.body.trainer;
     const geoData = await geocoder.forwardGeocode({
         query: `${trainerInput.street} ${trainerInput.city}, ${trainerInput.state} ${trainerInput.zip}`,
@@ -28,6 +29,9 @@ module.exports.createTrainer = async (req, res, next) => {
         trainer.image = { url: '', filename: '' };
     }
     trainer.author = req.user._id;
+    trainer.services = req.body.services;
+    trainer.serviceLocation = req.body.serviceLocation;
+    trainer.certification = req.body.certification;
     await trainer.save();
     req.flash('success', 'Successfully added your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);
@@ -71,6 +75,9 @@ module.exports.updateTrainer = async (req, res) => {
         }
         trainer.image = { url: req.file.path, filename: req.file.filename };
     }
+    trainer.services = req.body.services;
+    trainer.serviceLocation = req.body.serviceLocation;
+    trainer.certification = req.body.certification;
     await trainer.save();
     req.flash('success', 'Successfully updated your trainer profile!');
     res.redirect(`/trainers/${trainer._id}`);

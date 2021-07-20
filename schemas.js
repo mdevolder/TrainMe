@@ -48,7 +48,16 @@ module.exports.trainerSchema = Joi.object({
             .trim()
             .regex(/^[0-9]{5}(?:-[0-9]{4})?$/)
             .required(),
-    }).required()
+    }).required(),
+    services: Joi
+        .array()
+        .items(Joi.string()),
+    serviceLocation: Joi
+        .array()
+        .items(Joi.string()),
+    certification: Joi
+        .array()
+        .items(Joi.string())
 });
 
 module.exports.reviewSchema = Joi.object({
