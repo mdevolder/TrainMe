@@ -6,6 +6,7 @@ const cloudinary = require('cloudinary').v2;
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/train-me';
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -15,7 +16,7 @@ cloudinary.config({
 
 const Trainer = require('../models/trainer');
 
-mongoose.connect('mongodb://localhost:27017/train-me', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
@@ -45,7 +46,7 @@ const seedDB = async () => {
             state: locations[randomLoc].state,
             zip: locations[randomLoc].zip,
             description: sample(descriptions),
-            author: '60f03a8024c78712df801c9f',
+            author: '60f778b26514867e90b28303',
             services: sample(services),
             serviceLocation: sample(serviceLocations),
             certification: sample(certifications),
